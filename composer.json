@@ -1,0 +1,7 @@
+{
+    "name": "startplatz/wordpress-integration-bundle",
+    "autoload": {
+        "psr-0": { "Startplatz\\Bundle\\WordpressIntegrationBundle\\": "" }
+    },
+    "target-dir": "Startplatz/Bundle/WordpressIntegrationBundle"
+}

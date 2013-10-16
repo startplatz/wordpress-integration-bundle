@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="startplatz.wordpress_integration.wordpress_http_kernel" class="Startplatz\Bundle\WordpressIntegrationBundle\Wordpress\HttpKernel">
+            <argument>%startplatz.wordpress_integration.wordpress_root_dir%</argument>
+            <argument>%startplatz.wordpress_integration.global_names_cache_file%</argument>
+        </service>
+
+        <service id="startplatz.wordpress_integration.wordpress.database_helper" class="Startplatz\Bundle\WordpressIntegrationBundle\Wordpress\DatabaseHelper">
+            <argument type="service" id="doctrine.dbal.wordpress_connection" />
+            <argument>%startplatz.wordpress_integration.table_prefix%</argument>
+            <argument type="service" id="startplatz.wordpress_integration.wordpress_http_kernel" />
+        </service>
+
+        <service id="startplatz.wordpress_integration.shortcode.symfony_render" class="Startplatz\Bundle\WordpressIntegrationBundle\Wordpress\ShortCode\SymfonyRender">
+            <argument>%kernel.debug%</argument>
+            <argument type="service" id="fragment.handler" />
+            <tag name="startplatz.wordpress_integration.shortcode" alias="symfony_render" />
+        </service>
+
+        <service id="startplatz.wordpress_integration.wordpress_response_listener" class="Startplatz\Bundle\WordpressIntegrationBundle\EventListener\WordpressResponseListener">
+            <argument type="service" id="startplatz.wordpress_integration.wordpress_http_kernel" />
+            <argument type="service" id="annotation_reader" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+
+        <service id="startplatz.wordpress_integration.twig_extension_stringloader" class="Twig_Extension_StringLoader">
+            <tag name="twig.extension" />
+        </service>
+    </services>
+</container>
