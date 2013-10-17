@@ -8,7 +8,7 @@
         </service>
 
         <service id="startplatz.wordpress_integration.wordpress.database_helper" class="Startplatz\Bundle\WordpressIntegrationBundle\Wordpress\DatabaseHelper">
-            <argument type="service" id="doctrine.dbal.wordpress_connection" />
+            <argument />
             <argument>%startplatz.wordpress_integration.table_prefix%</argument>
             <argument type="service" id="startplatz.wordpress_integration.wordpress_http_kernel" />
         </service>

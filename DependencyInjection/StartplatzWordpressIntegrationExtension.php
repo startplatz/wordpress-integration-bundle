@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
 
 class StartplatzWordpressIntegrationExtension extends Extension {
 
@@ -24,6 +25,9 @@ class StartplatzWordpressIntegrationExtension extends Extension {
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
+
+        $databaseConnection = @$configuration['wordpress_dbal_connection'] ?: 'doctrine.dbal.wordpress_connection';
+        $container->getDefinition('startplatz.wordpress_integration.wordpress.database_helper')->replaceArgument(0, new Reference($databaseConnection));
     }
 
 }
