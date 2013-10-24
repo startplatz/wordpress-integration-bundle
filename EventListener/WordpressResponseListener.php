@@ -6,6 +6,7 @@ use Doctrine\Common\Annotations\Reader;
 use Doctrine\Common\Util\ClassUtils;
 use Startplatz\Bundle\WordpressIntegrationBundle\Annotation\WordpressResponse;
 use Startplatz\Bundle\WordpressIntegrationBundle\Wordpress\HttpKernel;
+use Startplatz\Bundle\WordpressIntegrationBundle\Wordpress\ShortCode;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -17,11 +18,16 @@ class WordpressResponseListener implements EventSubscriberInterface
 
     protected $wordpressHttpKernel;
     protected $annotationReader;
+    protected $shortCodes = array();
 
     public function __construct(HttpKernel $wordpressHttpKernel, Reader $annotationReader)
     {
         $this->wordpressHttpKernel = $wordpressHttpKernel;
         $this->annotationReader = $annotationReader;
+    }
+
+    public function addShortCode($name, ShortCode $shortCode) {
+        $this->shortCodes[$name] = $shortCode;
     }
 
     public function onKernelController(FilterControllerEvent $event)
@@ -57,6 +63,10 @@ class WordpressResponseListener implements EventSubscriberInterface
                 }
 
                 $request->attributes->set('_wordpressResponse', $response = $this->wordpressHttpKernel->handle($targetRequest));
+
+                $response->setContent(
+                    $this->expandShortCodes($response->getContent())
+                );
 
                 if ($configuration->getCreateTwigTemplate()) {
                     $markup = $response->getContent();
@@ -103,6 +113,11 @@ class WordpressResponseListener implements EventSubscriberInterface
             }
         }
         return $configurations;
+    }
+
+    protected function expandShortCodes($content) {
+        return preg_replace_callback('([([^ ]+( +([^=]="?([^"]+)"?)*])', $content, function($matches) {
+        });
     }
 
 }

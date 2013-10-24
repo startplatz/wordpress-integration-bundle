@@ -10,12 +10,12 @@ class ShortCodeCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('startplatz.wordpress_integration.wordpress_http_kernel')) {
+        if (!$container->hasDefinition('startplatz.wordpress_integration.wordpress_response_listener')) {
             return;
         }
 
-        $kernel = $container->getDefinition(
-            'startplatz.wordpress_integration.wordpress_http_kernel'
+        $listener = $container->getDefinition(
+            'startplatz.wordpress_integration.wordpress_response_listener'
         );
 
         $taggedServices = $container->findTaggedServiceIds(
@@ -23,7 +23,7 @@ class ShortCodeCompilerPass implements CompilerPassInterface
         );
         foreach ($taggedServices as $id => $allAttributes) {
             foreach ($allAttributes as $attributes) {
-                $kernel->addMethodCall(
+                $listener->addMethodCall(
                     'addShortCode',
                     array(
                         $attributes['alias'],

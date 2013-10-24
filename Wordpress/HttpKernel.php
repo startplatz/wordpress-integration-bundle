@@ -13,7 +13,6 @@ class HttpKernel implements HttpKernelInterface
 
     protected $wordpressRootDir;
     protected $wordpressGlobalNamesCacheFile;
-    protected $shortCodes = array();
     protected $catch;
     protected $outputBufferLevel;
     protected $oldGlobals;
@@ -22,10 +21,6 @@ class HttpKernel implements HttpKernelInterface
     {
         $this->wordpressRootDir = $wordpressRootDir;
         $this->wordpressGlobalNamesCacheFile = $wordpressGlobalNamesCacheFile;
-    }
-
-    public function addShortCode($name, ShortCode $shortCode) {
-        $this->shortCodes[$name] = $shortCode;
     }
 
     public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
@@ -65,10 +60,6 @@ class HttpKernel implements HttpKernelInterface
             $wp_query = $wp_the_query;
 
             \wp();
-
-            foreach ($this->shortCodes as $name => $shortCode) {
-                add_shortcode($name, array($shortCode, 'execute'));
-            }
 
             require_once("{$this->wordpressRootDir}/wp-includes/template-loader.php");
 
