@@ -116,8 +116,68 @@ class WordpressResponseListener implements EventSubscriberInterface
     }
 
     protected function expandShortCodes($content) {
-        return preg_replace_callback('([([^ ]+( +([^=]="?([^"]+)"?)*])', $content, function($matches) {
-        });
+        preg_match('(\<body[^>]+\>(.*)\</body\>)s', $content, $matches);
+
+        $body = $matches[1];
+
+
+        /*
+         *  ACHTUNG! DIESER CODE IST ZU GROSSEN TEILEN AUS WORDPRESS KOPIERT!
+         *
+         */
+        $tagnames = array_keys($this->shortCodes);
+        $tagregexp = join( '|', array_map('preg_quote', $tagnames) );
+
+        $pattern =
+            '\\['                              // Opening bracket
+            . '(\\[?)'                           // 1: Optional second opening bracket for escaping shortcodes: [[tag]]
+            . "($tagregexp)"                     // 2: Shortcode name
+            . '\\b'                              // Word boundary
+            . '('                                // 3: Unroll the loop: Inside the opening shortcode tag
+            .     '[^\\]\\/]*'                   // Not a closing bracket or forward slash
+            .     '(?:'
+            .         '\\/(?!\\])'               // A forward slash not followed by a closing bracket
+            .         '[^\\]\\/]*'               // Not a closing bracket or forward slash
+            .     ')*?'
+            . ')'
+            . '(?:'
+            .     '(\\/)'                        // 4: Self closing tag ...
+            .     '\\]'                          // ... and closing bracket
+            . '|'
+            .     '\\]'                          // Closing bracket
+            .     '(?:'
+            .         '('                        // 5: Unroll the loop: Optionally, anything between the opening and closing shortcode tags
+            .             '[^\\[]*+'             // Not an opening bracket
+            .             '(?:'
+            .                 '\\[(?!\\/\\2\\])' // An opening bracket not followed by the closing shortcode tag
+            .                 '[^\\[]*+'         // Not an opening bracket
+            .             ')*+'
+            .         ')'
+            .         '\\[\\/\\2\\]'             // Closing shortcode tag
+            .     ')?'
+            . ')'
+            . '(\\]?)';                          // 6: Optional second closing brocket for escaping shortcodes: [[tag]]
+
+        $shortCodes = $this->shortCodes;
+        $newBody = preg_replace_callback("/$pattern/s", function($m) use ($shortCodes) {
+                // allow [[foo]] syntax for escaping a tag
+                if ( $m[1] == '[' && $m[6] == ']' ) {
+                    return substr($m[0], 1, -1);
+                }
+
+                $tag = $m[2];
+                $attr = shortcode_parse_atts( $m[3] );
+
+                if ( isset( $m[5] ) ) {
+                    // enclosing tag - extra parameter
+                    return $m[1] . call_user_func( array($shortCodes[$tag], 'execute'), $attr, $m[5], $tag ) . $m[6];
+                } else {
+                    // self-closing tag
+                    return $m[1] . call_user_func( array($shortCodes[$tag], 'execute'), $attr, null,  $tag ) . $m[6];
+                }
+        }, $body);
+
+        return str_replace($body, $newBody, $content);
     }
 
 }
