@@ -116,7 +116,7 @@ class WordpressResponseListener implements EventSubscriberInterface
     }
 
     protected function expandShortCodes($content) {
-        preg_match('(\<body[^>]+\>(.*)\</body\>)s', $content, $matches);
+        preg_match('(\<body[^>]*\>(.*)\</body\>)s', $content, $matches);
 
         $body = $matches[1];
 
