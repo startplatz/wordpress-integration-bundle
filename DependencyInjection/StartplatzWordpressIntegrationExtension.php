@@ -23,7 +23,7 @@ class StartplatzWordpressIntegrationExtension extends Extension {
         {
             $definition = new Definition('Startplatz\Bundle\WordpressIntegrationBundle\Wordpress\ShortCode\ControllerShortCode',array(new Reference('fragment.handler'),$controller,'%kernel.debug%'));
             $definition->addTag('startplatz.wordpress_integration.shortcode',array('alias'=>$name));
-            $container->setDefinition('startplatz.wordpress_integration.configured_shortcode'.$name, $definition);
+            $container->setDefinition('startplatz.wordpress_integration.configured_shortcode.'.str_replace('-','_',$name), $definition);
         }
 
         $wordpressRootDir = realpath($configuration['wordpress_root_dir']);
