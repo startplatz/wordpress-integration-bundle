@@ -4,6 +4,7 @@ namespace Startplatz\Bundle\WordpressIntegrationBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -17,6 +18,13 @@ class StartplatzWordpressIntegrationExtension extends Extension {
         array_map(function($config) use (&$configuration) {
             $configuration = array_merge($configuration, $config);
         }, $config);
+
+        foreach ((array)@$configuration['shortcode'] as $name=>$controller)
+        {
+            $definition = new Definition('Startplatz\Bundle\WordpressIntegrationBundle\Wordpress\ShortCode\ControllerShortCode',array(new Reference('fragment.handler'),$controller,'%kernel.debug%'));
+            $definition->addTag('startplatz.wordpress_integration.shortcode',array('alias'=>$name));
+            $container->setDefinition('startplatz.wordpress_integration.configured_shortcode'.$name, $definition);
+        }
 
         $wordpressRootDir = realpath($configuration['wordpress_root_dir']);
         $container->setParameter('startplatz.wordpress_integration.table_prefix', @$configuration['table_prefix'] ?: 'wp_');
