@@ -16,6 +16,7 @@ class HttpKernel implements HttpKernelInterface
     protected $catch;
     protected $outputBufferLevel;
     protected $oldGlobals;
+    protected $timezone;
 
     public function __construct($wordpressRootDir, $wordpressGlobalNamesCacheFile)
     {
@@ -32,6 +33,8 @@ class HttpKernel implements HttpKernelInterface
 
         $this->catch = $catch;
         unset($catch);
+
+        $this->timezone = date_default_timezone_get();
 
         $this->startOutputBuffer();
 
@@ -68,6 +71,7 @@ class HttpKernel implements HttpKernelInterface
             $headers = $this->flushHeaders();
 
             $this->restoreGlobals();
+            date_default_timezone_set($this->timezone);
 
             return new Response($content, $statusCode, $headers);
 
@@ -75,6 +79,7 @@ class HttpKernel implements HttpKernelInterface
             $this->endOutputBuffer();
             $this->flushHeaders();
             $this->restoreGlobals();
+            date_default_timezone_set($this->timezone);
 
             if ($this->catch) {
                 return new Response($e->getMessage(), 500);
