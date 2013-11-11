@@ -1,6 +1,28 @@
 {
     "name": "startplatz/wordpress-integration-bundle",
-    "licence": "MIT",
+    "type": "symfony-bundle",
+    "description": "Integration of WordPress in Symfony2",
+    "keywords": ["integration","wordpress","symfony"],
+    "homepage": "http://github.com/startplatz/wordpress-integration-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Per Bernhardt",
+            "email": "info@perprogramming.de",
+            "homepage": "http://www.perprogramming.de",
+            "role": "Developer"
+        },
+        {
+            "name": "Gero Duppel",
+            "email": "gero.duppel@startplatz.de",
+            "homepage": "http://www.startplatz.de",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/framework-bundle": "~2.1"
+    },
     "autoload": {
         "psr-0": { "Startplatz\\Bundle\\WordpressIntegrationBundle\\": "" }
     },
