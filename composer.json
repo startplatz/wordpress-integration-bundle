@@ -1,5 +1,6 @@
 {
     "name": "startplatz/wordpress-integration-bundle",
+    "licence": "MIT",
     "autoload": {
         "psr-0": { "Startplatz\\Bundle\\WordpressIntegrationBundle\\": "" }
     },
