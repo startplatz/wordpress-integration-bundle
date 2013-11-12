@@ -38,6 +38,11 @@ enable a route that should be handled by WordPress in your routing configuration
     home:
         path: /
 
+For Apache 2 User:
+Take the sample .htaccess file to your document root and adjust it to your needs e.g. Error Handling etc.
+Note: It is better to prevent WordPress from changing this file!
+
+For other HTTP-Server you need to setup the rules based on the Apache rules
 
 Configuration
 -------------
