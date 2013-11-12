@@ -9,8 +9,8 @@ Features:
 * Use Symfony Controller output as WordPress Shortcodes
 
 
-Setup
------
+Setup Symfony
+-------------
 
 get the bundle by composer:
 
@@ -43,6 +43,14 @@ Take the sample .htaccess file to your document root and adjust it to your needs
 Note: It is better to prevent WordPress from changing this file!
 
 For other HTTP-Server you need to setup the rules based on the Apache rules
+
+Setup WordPress
+---------------
+Your WordPress Installation should be located in the `web` - folder of your Symfony2 - Project
+
+To complete the integration you should update the globals - cache by calling the Symfony Console Command:
+
+    app/console startplatz:wordpress-integration:build-global-names-cache
 
 Configuration
 -------------
