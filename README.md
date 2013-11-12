@@ -93,6 +93,8 @@ Your Twig Template should look like:
         Hello world!
     {% endblock %}
 
+Note: The twig function 'template_from_string()' is not activated by default. See the documentation http://twig.sensiolabs.org/doc/functions/template_from_string.html for this.
+
 #### Define blocks in WordPress ####
 
 In your WordPress page (or post) you can define as many blocks as you want. The WordPress Integration Bundle translates the wildcards like %%SOMETHING%% to the block definitions {%block something %}{% endblock %}
