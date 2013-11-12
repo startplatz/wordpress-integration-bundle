@@ -102,7 +102,7 @@ Note: The twig function `template_from_string()` is not activated by default. Se
 
 #### Define blocks in WordPress ####
 
-In your WordPress page (or post) you can define as many blocks as you want. The WordPress Integration Bundle translates the wildcards like %%SOMETHING%% to the block definitions {%block something %}{% endblock %}
+In your WordPress page (or post) you can define as many blocks as you want. The WordPress Integration Bundle translates the wildcards like `%%SOMETHING%%` to the block definitions `{%block something %}{% endblock %}`
 
 There are some default blocks that are integrated every time:
 
