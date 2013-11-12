@@ -98,7 +98,7 @@ Your Twig Template should look like:
         Hello world!
     {% endblock %}
 
-Note: The twig function 'template_from_string()' is not activated by default. See the documentation http://twig.sensiolabs.org/doc/functions/template_from_string.html for this.
+Note: The twig function `template_from_string()` is not activated by default. See the documentation http://twig.sensiolabs.org/doc/functions/template_from_string.html for this.
 
 #### Define blocks in WordPress ####
 
