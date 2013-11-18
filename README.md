@@ -32,11 +32,12 @@ activate the bundle in your app/AppKernel.php
 
 enable a route that should be handled by WordPress in your routing configuration (e.g. app/config/routing.yml)
 
+    ....
     wordpress:
         resource: "@StartplatzWordpressIntegrationBundle/Controller/PassthruController.php"
         type: annotation
-    home:
-        path: /
+
+Note: all your other routes should be configured in advance.
 
 For Apache 2 User:
 Take the sample .htaccess file to your document root and adjust it to your needs e.g. Error Handling etc.
@@ -58,7 +59,7 @@ Configuration
 app/config.yml:
 
     startplatz_wordpress_integration:
-        table_prefix: xyz
+        table_prefix: wp_
         wordpress_root_dir: %kernel.root_dir%/../web
         wordpress_dbal_connection: doctrine.dbal.wordpress_connection
 
