@@ -12,14 +12,16 @@ Features:
 Setup Symfony
 -------------
 
-get the bundle by composer:
+get the bundle by composer from packagist.org:
 
-    "repositories": [
-        {
-            "type": "git",
-            "url": "git@github.com:startplatz/wordpress-integration-bundle.git"
-        }
-    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/symfony": "2.3.*",
+        "sensio/framework-extra-bundle": "2.3.*",
+        "doctrine/dbal": "2.3.*",
+        "startplatz/wordpress-integration-bundle": "dev-master"
+        ...
+    }
 
 
 activate the bundle in your app/AppKernel.php
