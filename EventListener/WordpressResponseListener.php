@@ -72,7 +72,7 @@ class WordpressResponseListener implements EventSubscriberInterface
                     $markup = $response->getContent();
 
                     $foundBlocks = array();
-                    $markup = preg_replace_callback('(%%([^%]+)%%)', function($matches) use (&$foundBlocks, $request) {
+                    $markup = preg_replace_callback('(%%([A-Z\_]+)%%)', function($matches) use (&$foundBlocks, $request) {
                         $name = strtolower($matches[1]);
                         if (isset($foundBlocks[$name])) {
                             return "{{ block('{$name}') }}";
