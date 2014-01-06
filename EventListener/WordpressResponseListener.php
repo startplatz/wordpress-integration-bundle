@@ -78,7 +78,8 @@ class WordpressResponseListener implements EventSubscriberInterface
                             return "{{ block('{$name}') }}";
                         } else {
                             $foundBlocks[$name] = true;
-                            if ($name == 'canonical') {
+                            if ($name == 'canonical' OR $name == 'my_canonical') {
+                                $name = 'canonical';
                                 $blockContent = str_replace(array('http://', 'https://'), '', $request->getUri());
                             } else {
                                 $blockContent = '';
