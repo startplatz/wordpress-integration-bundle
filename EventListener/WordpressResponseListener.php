@@ -89,6 +89,10 @@ class WordpressResponseListener implements EventSubscriberInterface
                     }, $markup);
 
                     $markup = preg_replace('(<meta name="robots" content="([^"]+)"/>)', '<meta name="robots" content="{% block robots %}index,follow{% endblock %}" />', $markup);
+                    $markup = preg_replace('(<meta property="og:url" content="([^"]+)" />)', '<meta property="og:url" content="'.$request->getScheme().'://{{ block(\'canonical\') }}" />', $markup);
+                    $markup = preg_replace('(<meta property="article:published_time" content="([^"]+)" />)', '<meta property="article:published_time" content="{% block published_time %}$1{% endblock %}" />', $markup);
+                    $markup = preg_replace('(<meta property="article:modified_time" content="([^"]+)" />)', '<meta property="article:modified_time" content="{% block modified_time %}$1{% endblock %}" />', $markup);
+                    $markup = preg_replace('(<meta property="og:updated_time" content="([^"]+)" />)', '<meta property="og:updated_time" content="{% block updated_time %}$1{% endblock %}" />', $markup);
 
                     $markup = str_replace('</head>', '{% block additionalHead %}{% endblock %}</head>', $markup);
                     $markup = str_replace('</body>', '{% block additionalBody %}{% endblock %}</body>', $markup);
