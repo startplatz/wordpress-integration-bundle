@@ -34,8 +34,14 @@ class StartplatzWordpressIntegrationExtension extends Extension {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
 
-        $databaseConnection = @$configuration['wordpress_dbal_connection'] ?: 'doctrine.dbal.wordpress_connection';
-        $container->getDefinition('startplatz.wordpress_integration.wordpress.database_helper')->replaceArgument(0, new Reference($databaseConnection));
+        if ($databaseConnection = @$configuration['wordpress_dbal_connection']) {
+            $container->getDefinition('startplatz.wordpress_integration.wordpress.database_helper')->replaceArgument(
+                0,
+                new Reference($databaseConnection)
+            );
+        } else {
+            $container->removeDefinition('startplatz.wordpress_integration.wordpress.database_helper');
+        }
     }
 
 }
