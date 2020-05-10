@@ -1,0 +1,31 @@
+parameters:
+
+services:
+  Startplatz\Bundle\WordpressIntegrationBundle\Wordpress\HttpKernel:
+      id: 'startplatz.wordpress_integration.wordpress_http_kernel'
+      arguments:
+          $wordpressRootDir: '%startplatz.wordpress_integration.wordpress_root_dir%'
+          $wordpressGlobalNamesCacheFile: '%startplatz.wordpress_integration.global_names_cache_file%'
+
+  Startplatz\Bundle\WordpressIntegrationBundle\Wordpress\ShortCode\SymfonyRender:
+      id: 'startplatz.wordpress_integration.shortcode.symfony_render'
+      arguments:
+          $debug: '%kernel.debug%'
+          $handler: '@fragment.handler'
+      tags:
+          - { name: 'startplatz.wordpress_integration.shortcode', alias: 'symfony_render' }
+
+  Startplatz\Bundle\WordpressIntegrationBundle\EventListener\WordpressResponseListener:
+      id: 'startplatz.wordpress_integration.wordpress_response_listener'
+      arguments:
+          $wordpressHttpKernel: 'startplatz.wordpress_integration.wordpress_http_kernel'
+          $annotationReader: '@annotation_reader'
+      tags: ['kernel.event_subscriber']
+
+  \Twig\Extension\StringLoaderExtension:
+      id: 'startplatz.wordpress_integration.twig_extension_stringloader'
+      tags: ['twig.extension']
+
+  Startplatz\Bundle\Controller\:
+      resource: '../Controller'
+      tags: ['controller.service_arguments']
