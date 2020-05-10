@@ -9,24 +9,52 @@ Features:
 * Use Symfony Controller output as WordPress Shortcodes
 
 
-Setup Symfony
--------------
+Installation
+============
 
-get the bundle by composer from packagist.org:
+Make sure Composer is installed globally, as explained in the
+[installation chapter](https://getcomposer.org/doc/00-intro.md)
+of the Composer documentation.
 
+Applications that use Symfony Flex
+----------------------------------
+
+Open a command console, enter your project directory and execute:
+
+```console
+$ composer require wordpress-integration-bundle
 ```
-composer require startplatz/wordpress-integration-bundle
+
+Applications that don't use Symfony Flex
+----------------------------------------
+
+### Step 1: Download the Bundle
+
+Open a command console, enter your project directory and execute the
+following command to download the latest stable version of this bundle:
+
+```console
+$ composer require startplatz/wordpress-integration-bundle
 ```
 
-activate the bundle in your config/bundle.php
+### Step 2: Enable the Bundle
 
-    ...
+Then, enable the bundle by adding it to the list of registered bundles
+in the `config/bundles.php` file of your project:
+
+```php
+// config/bundles.php
+
+return [
+    // ...
     Startplatz\Bundle\WordpressIntegrationBundle\StartplatzWordpressIntegrationBundle::class => ['all' => true],
-    ....
+];
+```
 
+Manual Steps
+------------
 
-
-enable a route that should be handled by WordPress in your routing configuration (e.g. app/config/routing.yml)
+enable a route that should be handled by WordPress in your routing configuration (e.g. config/routing.yaml)
 
     ....
     wordpress:
@@ -43,7 +71,7 @@ For other HTTP-Server you need to setup the rules based on the Apache rules
 
 Setup WordPress
 ---------------
-Your WordPress Installation should be located in the `web` - folder of your Symfony2 - Project
+Your WordPress Installation should be located in the `public` - folder of your Symfony2 - Project
 
 To complete the integration you should update the globals - cache by calling the Symfony Console Command:
 
@@ -52,19 +80,14 @@ To complete the integration you should update the globals - cache by calling the
 Configuration
 -------------
 
-Add file `config/startplatz_wordpress_integration.yaml`
+Add file `config/startplatz_wordpress_integration.yaml` (if it is not done by flex yet)
 
 ```
 startplatz_wordpress_integration:
-    table_prefix: 'wp_'
     wordpress_root_dir: '%kernel.project_dir%/../public'
-    wordpress_dbal_connection: 'doctrine.dbal.wordpress_connection'
 ```
 
-* **table_prefix**: table prefix for WordPress (default: wp_)
 * **wordpress_root_dir**: Directory, where Wordpress is installed - mandatory, no default value
-* **wordpress_dbal_connection**: Doctrine-Dbal-Connection-Service for WordPress database (default: doctrine.dbal.wordpress_connection, to use the standard doctrine connection use doctrine.dbal.default_connection as Service ID)
-
 
 Implementation
 --------------
