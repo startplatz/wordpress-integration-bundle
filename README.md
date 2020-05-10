@@ -18,10 +18,10 @@ get the bundle by composer from packagist.org:
 composer require startplatz/wordpress-integration-bundle
 ```
 
-activate the bundle in your app/AppKernel.php
+activate the bundle in your config/bundle.php
 
     ...
-    new Startplatz\Bundle\WordpressIntegrationBundle\StartplatzWordpressIntegrationBundle(),
+    Startplatz\Bundle\WordpressIntegrationBundle\StartplatzWordpressIntegrationBundle::class => ['all' => true],
     ....
 
 
