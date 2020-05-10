@@ -56,8 +56,9 @@ class HttpKernel implements HttpKernelInterface
 
             define('WP_USE_THEMES', true);
             $time_start = microtime(true);
+            require("{$this->wordpressRootDir}/wp-blog-header.php");
 
-            require_once("{$this->wordpressRootDir}/wp-load.php");
+            require_once( dirname( __FILE__ ) . '/wp-load.php' );
 
             global $wp_query;
             $wp_query = $wp_the_query;

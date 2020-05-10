@@ -26,7 +26,6 @@
         "doctrine/dbal": ">2"
     },
     "autoload": {
-        "psr-0": { "Startplatz\\Bundle\\WordpressIntegrationBundle\\": "" }
-    },
-    "target-dir": "Startplatz/Bundle/WordpressIntegrationBundle"
+        "psr-4": { "Startplatz\\Bundle\\WordpressIntegrationBundle\\": "" }
+    }
 }
