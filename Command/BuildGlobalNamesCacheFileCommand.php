@@ -2,21 +2,22 @@
 
 namespace Startplatz\Bundle\WordpressIntegrationBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 
 class BuildGlobalNamesCacheFileCommand extends Command {
+    protected static $defaultName = 'startplatz:wordpress-integration:build-global-names-cache';
 
     protected $wordpressRootDir;
     protected $cacheFile;
 
     public function __construct( string $wordpressRootDir, string $cacheFile) {
+        parent::__construct();
         $this->wordpressRootDir = $wordpressRootDir;
         $this->cacheFile = $cacheFile;
-        parent::__construct();
+
     }
 
     protected function configure()
