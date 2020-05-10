@@ -13,6 +13,11 @@
             <tag name="startplatz.wordpress_integration.shortcode" alias="symfony_render" />
         </service>
 
+        <service id="startplatz.wordpress_integration.command.build_cache" class="Startplatz\Bundle\WordpressIntegrationBundle\Command\BuildGlobalNamesCacheFileCommand">
+            <argument>%startplatz.wordpress_integration.wordpress_root_dir%</argument>
+            <argument>%startplatz.wordpress_integration.global_names_cache_file%</argument>
+        </service>
+
         <service id="startplatz.wordpress_integration.wordpress_response_listener" class="Startplatz\Bundle\WordpressIntegrationBundle\EventListener\WordpressResponseListener">
             <argument type="service" id="startplatz.wordpress_integration.wordpress_http_kernel" />
             <argument type="service" id="annotation_reader" />
