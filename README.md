@@ -52,12 +52,14 @@ To complete the integration you should update the globals - cache by calling the
 Configuration
 -------------
 
-app/config.yml:
+Add file `config/startplatz_wordpress_integration.yaml`
 
-    startplatz_wordpress_integration:
-        table_prefix: wp_
-        wordpress_root_dir: %kernel.root_dir%/../web
-        wordpress_dbal_connection: doctrine.dbal.wordpress_connection
+```
+startplatz_wordpress_integration:
+    table_prefix: 'wp_'
+    wordpress_root_dir: '%kernel.project_dir%/../public'
+    wordpress_dbal_connection: 'doctrine.dbal.wordpress_connection'
+```
 
 * **table_prefix**: table prefix for WordPress (default: wp_)
 * **wordpress_root_dir**: Directory, where Wordpress is installed - mandatory, no default value
