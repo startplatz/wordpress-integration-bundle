@@ -4,7 +4,7 @@ WordPress Integration Bundle
 Open-Source Bundle to integrate WordPress in a Symfony2 Project.
 
 Features:
-* Using WordPress and Symfony2 in parallel
+* Using WordPress and Symfony in parallel
 * Using layout from WordPress as a Twig - Template by annotation
 * Use Symfony Controller output as WordPress Shortcodes
 
@@ -14,15 +14,9 @@ Setup Symfony
 
 get the bundle by composer from packagist.org:
 
-    "require": {
-        "php": ">=5.3.3",
-        "symfony/symfony": "2.3.*",
-        "sensio/framework-extra-bundle": "2.3.*",
-        "doctrine/dbal": "2.3.*",
-        "startplatz/wordpress-integration-bundle": "dev-master"
-        ...
-    }
-
+```
+composer require startplatz/wordpress-integration-bundle
+```
 
 activate the bundle in your app/AppKernel.php
 

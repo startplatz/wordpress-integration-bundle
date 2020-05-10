@@ -1,7 +1,7 @@
 {
     "name": "startplatz/wordpress-integration-bundle",
     "type": "symfony-bundle",
-    "description": "Integration of WordPress in Symfony2",
+    "description": "Integration of WordPress in Symfony",
     "keywords": ["integration","wordpress","symfony"],
     "homepage": "http://github.com/startplatz/wordpress-integration-bundle",
     "license": "MIT",
@@ -14,15 +14,15 @@
         },
         {
             "name": "Gero Duppel",
-            "email": "gero.duppel@startplatz.de",
+            "email": "gero.duppel@gmail.com",
             "homepage": "http://www.startplatz.de",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": ">=5.3.3",
-        "symfony/symfony": ">2.3",
-        "sensio/framework-extra-bundle": ">2.3",
+        "php": ">=7.3",
+        "symfony/symfony": ">5.0",
+        "sensio/framework-extra-bundle": "^5.1",
         "doctrine/dbal": ">2"
     },
     "autoload": {
