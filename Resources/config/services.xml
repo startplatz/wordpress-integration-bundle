@@ -7,12 +7,6 @@
             <argument>%startplatz.wordpress_integration.global_names_cache_file%</argument>
         </service>
 
-        <service id="startplatz.wordpress_integration.wordpress.database_helper" class="Startplatz\Bundle\WordpressIntegrationBundle\Wordpress\DatabaseHelper">
-            <argument />
-            <argument>%startplatz.wordpress_integration.table_prefix%</argument>
-            <argument type="service" id="startplatz.wordpress_integration.wordpress_http_kernel" />
-        </service>
-
         <service id="startplatz.wordpress_integration.shortcode.symfony_render" class="Startplatz\Bundle\WordpressIntegrationBundle\Wordpress\ShortCode\SymfonyRender">
             <argument>%kernel.debug%</argument>
             <argument type="service" id="fragment.handler" />
