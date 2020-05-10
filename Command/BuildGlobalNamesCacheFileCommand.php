@@ -81,6 +81,8 @@ class BuildGlobalNamesCacheFileCommand extends Command {
         sort($names);
 
         file_put_contents($this->cacheFile, '<?php return ' . str_replace(array("\n", ' '), '', var_export($names, true)) . ';');
+
+        return 1;
     }
 
 }
