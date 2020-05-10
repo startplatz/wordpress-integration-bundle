@@ -19,7 +19,7 @@
             <tag name="kernel.event_subscriber" />
         </service>
 
-        <service id="startplatz.wordpress_integration.twig_extension_stringloader" class="Twig_Extension_StringLoader">
+        <service id="startplatz.wordpress_integration.twig_extension_stringloader" class="\Twig\Extension\StringLoaderExtension">
             <tag name="twig.extension" />
         </service>
     </services>
