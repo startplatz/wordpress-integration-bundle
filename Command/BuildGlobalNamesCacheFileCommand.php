@@ -82,7 +82,7 @@ class BuildGlobalNamesCacheFileCommand extends Command {
 
         file_put_contents($this->cacheFile, '<?php return ' . str_replace(array("\n", ' '), '', var_export($names, true)) . ';');
 
-        return 1;
+        return 0;
     }
 
 }

@@ -58,7 +58,7 @@ class HttpKernel implements HttpKernelInterface
             $time_start = microtime(true);
             require("{$this->wordpressRootDir}/wp-blog-header.php");
 
-            require_once( dirname( __FILE__ ) . '/wp-load.php' );
+            require_once("{$this->wordpressRootDir}/wp-load.php");
 
             global $wp_query;
             $wp_query = $wp_the_query;
