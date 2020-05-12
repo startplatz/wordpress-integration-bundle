@@ -51,11 +51,12 @@ class HttpKernel implements HttpKernelInterface
                     @eval('global $' . $name . ';');
                 }
             } else {
-                throw new \RuntimeException('The global names cache file has to be generated with "app/console startplatz:wordpress-integration:build-global-names-cache"');
+                throw new \RuntimeException('The global names cache file has to be generated with "bin/console startplatz:wordpress-integration:build-global-names-cache"');
             }
 
             define('WP_USE_THEMES', true);
             $time_start = microtime(true);
+            require("{$this->wordpressRootDir}/wp-blog-header.php");
 
             require_once("{$this->wordpressRootDir}/wp-load.php");
 

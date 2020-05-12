@@ -7,16 +7,16 @@
             <argument>%startplatz.wordpress_integration.global_names_cache_file%</argument>
         </service>
 
-        <service id="startplatz.wordpress_integration.wordpress.database_helper" class="Startplatz\Bundle\WordpressIntegrationBundle\Wordpress\DatabaseHelper">
-            <argument />
-            <argument>%startplatz.wordpress_integration.table_prefix%</argument>
-            <argument type="service" id="startplatz.wordpress_integration.wordpress_http_kernel" />
-        </service>
-
         <service id="startplatz.wordpress_integration.shortcode.symfony_render" class="Startplatz\Bundle\WordpressIntegrationBundle\Wordpress\ShortCode\SymfonyRender">
             <argument>%kernel.debug%</argument>
             <argument type="service" id="fragment.handler" />
             <tag name="startplatz.wordpress_integration.shortcode" alias="symfony_render" />
+        </service>
+
+        <service id="startplatz.wordpress_integration.command.build_cache" class="Startplatz\Bundle\WordpressIntegrationBundle\Command\BuildGlobalNamesCacheFileCommand">
+            <argument>%startplatz.wordpress_integration.wordpress_root_dir%</argument>
+            <argument>%startplatz.wordpress_integration.global_names_cache_file%</argument>
+            <tag name="console.command" command="startplatz:wordpress-integration:build-global-names-cache" />
         </service>
 
         <service id="startplatz.wordpress_integration.wordpress_response_listener" class="Startplatz\Bundle\WordpressIntegrationBundle\EventListener\WordpressResponseListener">
@@ -25,8 +25,13 @@
             <tag name="kernel.event_subscriber" />
         </service>
 
-        <service id="startplatz.wordpress_integration.twig_extension_stringloader" class="Twig_Extension_StringLoader">
+        <service id="startplatz.wordpress_integration.twig_extension_stringloader" class="\Twig\Extension\StringLoaderExtension">
             <tag name="twig.extension" />
         </service>
+
+        <service id="Startplatz\Bundle\WordpressIntegrationBundle\Controller\PassthruController" class="Startplatz\Bundle\WordpressIntegrationBundle\Controller\PassthruController" public="true" autowire="true">
+            <tag name="container.service_subscriber" />
+        </service>
+
     </services>
 </container>

@@ -2,12 +2,23 @@
 
 namespace Startplatz\Bundle\WordpressIntegrationBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 
-class BuildGlobalNamesCacheFileCommand extends ContainerAwareCommand {
+class BuildGlobalNamesCacheFileCommand extends Command {
+    protected static $defaultName = 'startplatz:wordpress-integration:build-global-names-cache';
+
+    protected $wordpressRootDir;
+    protected $cacheFile;
+
+    public function __construct( string $wordpressRootDir, string $cacheFile) {
+        parent::__construct();
+        $this->wordpressRootDir = $wordpressRootDir;
+        $this->cacheFile = $cacheFile;
+
+    }
 
     protected function configure()
     {
@@ -18,19 +29,16 @@ class BuildGlobalNamesCacheFileCommand extends ContainerAwareCommand {
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $wordpressRootDir = $this->getContainer()->getParameter('startplatz.wordpress_integration.wordpress_root_dir');
-        $cacheFile = $this->getContainer()->getParameter('startplatz.wordpress_integration.global_names_cache_file');
-
         set_time_limit(0);
 
-        $previousNames = @include($cacheFile);
+        $previousNames = @include($this->cacheFile);
 
         $names = $previousNames ?: array();
 
         $finder = new Finder();
         $finder
             ->files()
-            ->in($wordpressRootDir)
+            ->in($this->wordpressRootDir)
             ->name('*.php');
 
         foreach ($finder as $file) {
@@ -72,7 +80,9 @@ class BuildGlobalNamesCacheFileCommand extends ContainerAwareCommand {
 
         sort($names);
 
-        file_put_contents($cacheFile, '<?php return ' . str_replace(array("\n", ' '), '', var_export($names, true)) . ';');
+        file_put_contents($this->cacheFile, '<?php return ' . str_replace(array("\n", ' '), '', var_export($names, true)) . ';');
+
+        return 0;
     }
 
 }

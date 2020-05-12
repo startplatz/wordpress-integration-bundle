@@ -3,12 +3,11 @@
 namespace Startplatz\Bundle\WordpressIntegrationBundle\EventListener;
 
 use Doctrine\Common\Annotations\Reader;
-use Doctrine\Common\Util\ClassUtils;
 use Startplatz\Bundle\WordpressIntegrationBundle\Annotation\WordpressResponse;
 use Startplatz\Bundle\WordpressIntegrationBundle\Wordpress\HttpKernel;
 use Startplatz\Bundle\WordpressIntegrationBundle\Wordpress\ShortCode;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,12 +29,12 @@ class WordpressResponseListener implements EventSubscriberInterface
         $this->shortCodes[$name] = $shortCode;
     }
 
-    public function onKernelController(FilterControllerEvent $event)
+    public function onKernelController(ControllerEvent $event)
     {
         if ($event->getRequestType() == HttpKernelInterface::MASTER_REQUEST) {
 
             $controller = $event->getController();
-            $className = class_exists('Doctrine\Common\Util\ClassUtils') ? ClassUtils::getClass($controller[0]) : get_class($controller[0]);
+            $className = get_class($controller[0]);
             $object    = new \ReflectionClass($className);
             $method    = $object->getMethod($controller[1]);
 

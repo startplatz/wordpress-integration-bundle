@@ -6,7 +6,6 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\Extension;
-use Symfony\Component\DependencyInjection\Extension\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 
@@ -27,21 +26,12 @@ class StartplatzWordpressIntegrationExtension extends Extension {
         }
 
         $wordpressRootDir = realpath($configuration['wordpress_root_dir']);
-        $container->setParameter('startplatz.wordpress_integration.table_prefix', @$configuration['table_prefix'] ?: 'wp_');
         $container->setParameter('startplatz.wordpress_integration.wordpress_root_dir', $wordpressRootDir);
         $container->setParameter('startplatz.wordpress_integration.global_names_cache_file', "$wordpressRootDir/wp-content/globalNames.php");
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
 
-        if ($databaseConnection = @$configuration['wordpress_dbal_connection']) {
-            $container->getDefinition('startplatz.wordpress_integration.wordpress.database_helper')->replaceArgument(
-                0,
-                new Reference($databaseConnection)
-            );
-        } else {
-            $container->removeDefinition('startplatz.wordpress_integration.wordpress.database_helper');
-        }
     }
 
 }
