@@ -24,9 +24,9 @@ class HttpKernel implements HttpKernelInterface
         $this->wordpressGlobalNamesCacheFile = $wordpressGlobalNamesCacheFile;
     }
 
-    public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
+    public function handle(Request $request, int $type = self::MAIN_REQUEST, bool $catch = true): Response
     {
-        if ($type !== self::MASTER_REQUEST) {
+        if ($type !== self::MAIN_REQUEST) {
             throw new \LogicException('Wordpress\HttpKernel cannot handle SUB_REQUESTS');
         }
         unset($type);
