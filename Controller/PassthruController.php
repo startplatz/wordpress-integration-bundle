@@ -10,13 +10,6 @@ use Startplatz\Bundle\WordpressIntegrationBundle\Annotation\WordpressResponse;
 class PassthruController extends AbstractController
 {
 
-    /**
-     * @WordpressResponse
-     *
-     * @param Request $request
-     *
-     * @return mixed|null
-     */
     #[Route('/{path}', name: 'startplatz_wordpress_passthru', requirements: ['path' => '.*'])]
     #[WordpressResponse]
     public function passthruAction(Request $request)

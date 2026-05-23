@@ -2,9 +2,6 @@
 
 namespace Startplatz\Bundle\WordpressIntegrationBundle\Annotation;
 
-/**
- * @Annotation
- */
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD)]
 class WordpressResponse {
 
