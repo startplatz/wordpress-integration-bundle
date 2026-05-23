@@ -27,7 +27,7 @@ class BuildGlobalNamesCacheFileCommand extends Command {
             ->setDescription('Generate the list of global variable names for wordpress integration');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         set_time_limit(0);
 

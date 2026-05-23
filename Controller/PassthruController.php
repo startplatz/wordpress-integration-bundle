@@ -11,13 +11,14 @@ class PassthruController extends AbstractController
 {
 
     /**
-     * @Route("/{path}", name="startplatz_wordpress_passthru", requirements={"path"=".*"})
      * @WordpressResponse
      *
      * @param Request $request
      *
      * @return mixed|null
      */
+    #[Route('/{path}', name: 'startplatz_wordpress_passthru', requirements: ['path' => '.*'])]
+    #[WordpressResponse]
     public function passthruAction(Request $request)
     {
         return $request->attributes->get('_wordpressResponse');

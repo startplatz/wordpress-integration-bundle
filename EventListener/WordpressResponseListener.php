@@ -31,7 +31,7 @@ class WordpressResponseListener implements EventSubscriberInterface
 
     public function onKernelController(ControllerEvent $event)
     {
-        if ($event->getRequestType() == HttpKernelInterface::MASTER_REQUEST) {
+        if ($event->getRequestType() == HttpKernelInterface::MAIN_REQUEST) {
 
             $controller = $event->getController();
             $className = get_class($controller[0]);
@@ -40,7 +40,9 @@ class WordpressResponseListener implements EventSubscriberInterface
 
             $configurations = array_merge(
                 $this->getConfigurations($this->annotationReader->getClassAnnotations($object)),
-                $this->getConfigurations($this->annotationReader->getMethodAnnotations($method))
+                $this->getConfigurations($this->annotationReader->getMethodAnnotations($method)),
+                $this->getConfigurations($this->getAttributeConfigurations($object)),
+                $this->getConfigurations($this->getAttributeConfigurations($method))
             );
 
             if ($configuration = @$configurations['Startplatz\Bundle\WordpressIntegrationBundle\Annotation\WordpressResponse']) {
@@ -102,7 +104,7 @@ class WordpressResponseListener implements EventSubscriberInterface
         }
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return array(
             KernelEvents::CONTROLLER => 'onKernelController',
@@ -117,6 +119,18 @@ class WordpressResponseListener implements EventSubscriberInterface
             }
         }
         return $configurations;
+    }
+
+    protected function getAttributeConfigurations(\Reflector $reflector): array
+    {
+        if (!method_exists($reflector, 'getAttributes')) {
+            return array();
+        }
+
+        return array_map(
+            static fn(\ReflectionAttribute $attribute) => $attribute->newInstance(),
+            $reflector->getAttributes(WordpressResponse::class)
+        );
     }
 
     protected function expandShortCodes($content) {
