@@ -11,13 +11,13 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 class StartplatzWordpressIntegrationBundle extends Bundle
 {
 
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         parent::build($container);
         $container->addCompilerPass(new ShortCodeCompilerPass());
     }
 
-    public function boot()
+    public function boot(): void
     {
         SymfonyFacade::setContainer($this->container);
     }

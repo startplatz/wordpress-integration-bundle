@@ -20,7 +20,7 @@ class BuildGlobalNamesCacheFileCommand extends Command {
 
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('startplatz:wordpress-integration:build-global-names-cache')

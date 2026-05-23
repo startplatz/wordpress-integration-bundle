@@ -1,0 +1,41 @@
+services:
+    startplatz.wordpress_integration.wordpress_http_kernel:
+        class: Startplatz\Bundle\WordpressIntegrationBundle\Wordpress\HttpKernel
+        arguments:
+            - '%startplatz.wordpress_integration.wordpress_root_dir%'
+            - '%startplatz.wordpress_integration.global_names_cache_file%'
+
+    startplatz.wordpress_integration.shortcode.symfony_render:
+        class: Startplatz\Bundle\WordpressIntegrationBundle\Wordpress\ShortCode\SymfonyRender
+        arguments:
+            - '%kernel.debug%'
+            - '@fragment.handler'
+        tags:
+            - { name: startplatz.wordpress_integration.shortcode, alias: symfony_render }
+
+    startplatz.wordpress_integration.command.build_cache:
+        class: Startplatz\Bundle\WordpressIntegrationBundle\Command\BuildGlobalNamesCacheFileCommand
+        arguments:
+            - '%startplatz.wordpress_integration.wordpress_root_dir%'
+            - '%startplatz.wordpress_integration.global_names_cache_file%'
+        tags:
+            - { name: console.command, command: startplatz:wordpress-integration:build-global-names-cache }
+
+    startplatz.wordpress_integration.wordpress_response_listener:
+        class: Startplatz\Bundle\WordpressIntegrationBundle\EventListener\WordpressResponseListener
+        arguments:
+            - '@startplatz.wordpress_integration.wordpress_http_kernel'
+            - '@annotation_reader'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    startplatz.wordpress_integration.twig_extension_stringloader:
+        class: \Twig\Extension\StringLoaderExtension
+        tags:
+            - { name: twig.extension }
+
+    Startplatz\Bundle\WordpressIntegrationBundle\Controller\PassthruController:
+        public: true
+        autowire: true
+        tags:
+            - { name: container.service_subscriber }
