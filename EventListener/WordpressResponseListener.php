@@ -134,7 +134,14 @@ class WordpressResponseListener implements EventSubscriberInterface
     }
 
     protected function expandShortCodes($content) {
-        preg_match('(\<html[^>]*\>(.*)\</html\>)s', $content, $matches);
+        // Shortcodes werden ausschliesslich im <html>-Body expandiert. Responses
+        // ohne <html>-Element (z. B. RSS-/Atom-Feeds unter /feed/, die XML statt
+        // HTML liefern) enthalten keine Shortcodes und werden unveraendert
+        // durchgereicht. Ohne diesen Guard greift der folgende Zugriff auf
+        // $matches[1] ins Leere ("Undefined array key 1").
+        if (!preg_match('(\<html[^>]*\>(.*)\</html\>)s', $content, $matches)) {
+            return $content;
+        }
 
         $body = $matches[1];
 
